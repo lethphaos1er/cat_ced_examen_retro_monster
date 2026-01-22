@@ -1,0 +1,36 @@
+version: "3.8"
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: dockers/Dockerfile
+    container_name: retro_monsters_app
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/var/www/html
+    depends_on:
+      - db
+    environment:
+      APP_ENV: local
+      APP_DEBUG: "true"
+      DB_CONNECTION: mysql
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_DATABASE: retro_monsters_2025
+      DB_USERNAME: root
+      DB_PASSWORD: 
+    command: sh -c "php artisan key:generate
+    image: mysql:8.0
+    container_name: retro_monsters_db
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD:
+      MYSQL_DATABASE: retro_monsters_2025
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+volumes:
+  mysql_data:

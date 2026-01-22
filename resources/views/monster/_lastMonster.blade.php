@@ -5,16 +5,16 @@
     @forelse ($lastMonsters as $monster)
       <article
         class="relative bg-gray-700 rounded-lg shadow-lg hover:shadow-2xl transition-shadow duration-300 monster-card"
-        data-monster-type="{{ $monster->type_id }}"
+        data-monster-type="{{ $monster->type_id ?? 'Inconnu' }}"
       >
         <img
           class="w-full h-48 object-cover rounded-t-lg"
           src="{{ asset('images/monster/' . ($monster->image_url ?? 'default.png')) }}"
-          alt="{{ $monster->name }}"
+          alt="{{ $monster->name ?? 'Inconnu' }}"
         />
 
         <div class="p-4">
-          <h3 class="text-xl font-bold">{{ $monster->name }}</h3>
+          <h3 class="text-xl font-bold">{{ $monster->name ?? 'Inconnu' }}</h3>
 
           <h4 class="mb-2">
             <a href="#" class="text-red-400 hover:underline">
@@ -38,13 +38,13 @@
           </div>
 
           <div class="flex justify-between items-center mb-4">
-            <span class="text-sm text-gray-300">PV: {{ $monster->pv }}</span>
-            <span class="text-sm text-gray-300">Attaque: {{ $monster->attack }}</span>
+            <span class="text-sm text-gray-300">PV: {{ $monster->pv ?? 'Inconnu' }}</span>
+            <span class="text-sm text-gray-300">Attaque: {{ $monster->attack ?? 'Inconnu' }}</span>
           </div>
 
           <div class="text-center">
             <a
-              href="{{ route('monster.show', ['monster' => $monster->id, 'slug' => Illuminate\Support\Str::slug($monster->name)]) }}"
+              href="{{ route('monster.show', ['monster' => $monster->id, 'slug' => \Illuminate\Support\Str::slug($monster->name ?? '')]) }}"
               class="inline-block text-white bg-red-500 hover:bg-red-700 rounded-full px-4 py-2 transition-colors duration-300"
             >
               Plus de détails

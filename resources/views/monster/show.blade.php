@@ -38,8 +38,7 @@
           </h2>
 
           <p class="text-gray-300 text-sm mb-4">
-            Description détaillée du monstre, y compris son histoire,
-            ses capacités, et tout ce qui le rend unique.
+            {{ $monster->description }}
           </p>
 
           <div class="mb-4">
