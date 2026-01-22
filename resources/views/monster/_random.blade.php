@@ -1,15 +1,15 @@
  <section class="mb-20">
           <div
             class="bg-gray-700 rounded-lg shadow-lg monster-card"
-            data-monster-type="aquatique"
+            data-monster-type="{{ $monster->type->name }}"
           >
             <div class="md:flex">
               <!-- Image du monstre -->
               <div class="w-full md:w-1/2 relative">
                 <img
                   class="w-full h-full object-cover rounded-t-lg md:rounded-l-lg md:rounded-t-none"
-                  src="images/aqualizzard.png"
-                  alt="Nom du Monstre"
+                  src="{{ asset('images/monster/' . ($monster->image_url ?? 'default.png')) }}"
+                  alt="{{ $monster->name }}"
                 />
                 <div class="absolute top-4 right-4">
                   <button
@@ -30,7 +30,7 @@
               <!-- Détails du monstre -->
               <div class="p-6 md:w-1/2">
                 <h2 class="text-3xl font-bold mb-2 creepster">
-                  Nom du Monstre
+                  {{ $monster->name }}
                 </h2>
                 <p class="text-gray-300 text-sm mb-4">
                   Description détaillée du monstre, y compris son histoire, ses
@@ -38,24 +38,24 @@
                 </p>
                 <div class="mb-4">
                   <strong class="text-white">Créateur:</strong>
-                  <span class="text-red-400">Nom du Créateur</span>
+                  <span class="text-red-400">{{$monster->user->name}}</span>
                 </div>
                 <div class="mb-4">
                   <div>
                     <strong class="text-white">Type:</strong>
-                    <span class="text-gray-300">Aquatique</span>
+                    <span class="text-gray-300">{{ $monster->type->name }}</span>
                   </div>
                   <div>
                     <strong class="text-white">PV:</strong>
-                    <span class="text-gray-300">150</span>
+                    <span class="text-gray-300">{{ $monster->pv }}</span>
                   </div>
                   <div>
                     <strong class="text-white">Attaque:</strong>
-                    <span class="text-gray-300">120</span>
+                    <span class="text-gray-300">{{ $monster->attack }}</span>
                   </div>
                   <div>
                     <strong class="text-white">Défense:</strong>
-                    <span class="text-gray-300">100</span>
+                    <span class="text-gray-300">{{ $monster->defense }}</span>
                   </div>
                 </div>
                 <div class="mb-4">
@@ -63,11 +63,11 @@
                   <span class="text-gray-300 text-sm">(4.0/5.0)</span>
                 </div>
                 <div class="">
-                  <a
-                    href="monster.html"
+                  {{-- <a
+                    href="{{ route('monster.show', ['monster' => $monster->id, 'slug' => Illuminate\Support\Str::slug($monster->name)]) }}"
                     class="inline-block text-white bg-red-500 hover:bg-red-700 rounded-full px-4 py-2 transition-colors duration-300"
                     >Plus de détails</a
-                  >
+                  > --}}
                 </div>
               </div>
             </div>

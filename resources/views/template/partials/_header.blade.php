@@ -8,7 +8,7 @@
         <div class="flex items-center">
           <a href="#">
             <img
-              src="{{ asset('template/images/Logo_RetroMonsters.png') }}"
+              src="{{ asset('images/Logo_RetroMonsters.png') }}"
               alt="RetroMonsters Logo"
               class="h-32 mr-3 absolute"
               style="top: -28px"
