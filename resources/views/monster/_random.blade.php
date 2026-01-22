@@ -63,11 +63,11 @@
                   <span class="text-gray-300 text-sm">(4.0/5.0)</span>
                 </div>
                 <div class="">
-                  {{-- <a
+                  <a
                     href="{{ route('monster.show', ['monster' => $monster->id, 'slug' => Illuminate\Support\Str::slug($monster->name)]) }}"
                     class="inline-block text-white bg-red-500 hover:bg-red-700 rounded-full px-4 py-2 transition-colors duration-300"
                     >Plus de détails</a
-                  > --}}
+                  >
                 </div>
               </div>
             </div>

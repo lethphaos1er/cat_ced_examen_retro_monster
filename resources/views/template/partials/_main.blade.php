@@ -1,5 +1,2 @@
- <div class="container mx-auto flex flex-wrap pt-4 pb-12">
-    @yield('content')
-
-    @include('template.partials._aside')
-</div>
+@include('monster._random', ['monster' => $randomMonster])
+@include('monster._lastMonster', ['monsters' => $lastMonsters])

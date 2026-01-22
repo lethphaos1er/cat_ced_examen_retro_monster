@@ -15,7 +15,7 @@ class PagesController extends Controller
         $randomMonster = monster::inRandomOrder()->first();
         $lastMonsters = monster::all()->sortByDesc(function ($monster) {
             return $monster->created_at;
-        })->take(3);
+        })->take(9);
         return view('pages.home', compact('randomMonster', 'lastMonsters'));
     }
 }
