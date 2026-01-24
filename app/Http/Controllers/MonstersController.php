@@ -21,12 +21,7 @@ class MonstersController extends Controller
     {
         $types = MonsterType::query()->orderBy('name')->get();
 
-        $rareties = [
-            'Commun',
-            'Rare',
-            'Épique',
-            'Légendaire',
-        ];
+        $rareties = ['Commun', 'Rare', 'Épique', 'Légendaire'];
 
         return view('monster.create', compact('types', 'rareties'));
     }
@@ -40,10 +35,8 @@ class MonstersController extends Controller
             'attack'      => ['required', 'integer', 'min:0'],
             'defense'     => ['required', 'integer', 'min:0'],
             'description' => ['required', 'string'],
-
             'type_id'     => ['required', 'integer'],
             'rarety_id'   => ['nullable', 'integer'],
-
             'image_url'   => ['nullable', 'string', 'max:255'],
         ]);
 
@@ -52,6 +45,49 @@ class MonstersController extends Controller
         $data['image_url'] = $data['image_url'] ?: null;
 
         $monster = Monster::create($data);
+
+        return to_route('monster.show', [
+            'monster' => $monster->id,
+            'slug'    => Str::slug($monster->name),
+        ]);
+    }
+
+    public function edit(Monster $monster): View
+    {
+        $types = MonsterType::query()->orderBy('name')->get();
+
+        $rareties = ['Commun', 'Rare', 'Épique', 'Légendaire'];
+
+        return view('monster.edit', compact('monster', 'types', 'rareties'));
+    }
+
+    public function destroy(Monster $monster): RedirectResponse
+{
+    $monster->delete();
+
+    return redirect()
+        ->route('home')
+        ->with('success', 'Monstre supprimé avec succès');
+}
+
+    public function update(Request $request, Monster $monster): RedirectResponse
+    {
+        $data = $request->validate([
+            'name'        => ['required', 'string', 'max:255'],
+            'rarity'      => ['required', 'string', 'max:50'],
+            'pv'          => ['required', 'integer', 'min:0'],
+            'attack'      => ['required', 'integer', 'min:0'],
+            'defense'     => ['required', 'integer', 'min:0'],
+            'description' => ['required', 'string'],
+            'type_id'     => ['required', 'integer'],
+            'rarety_id'   => ['nullable', 'integer'],
+            'image_url'   => ['nullable', 'string', 'max:255'],
+        ]);
+
+        $data['rarety_id'] = $data['rarety_id'] ?? 1;
+        $data['image_url'] = $data['image_url'] ?: null;
+
+        $monster->update($data);
 
         return to_route('monster.show', [
             'monster' => $monster->id,

@@ -67,13 +67,10 @@
 
           <div>
             <a
-              href="monster.html"
+              href="{{ route('monster.edit', $monster) }}"
               class="inline-block text-white bg-red-500 hover:bg-red-700 rounded-full px-4 py-2 transition-colors duration-300"
             >Modifier</a>
-            <a
-              href="monster.html"
-              class="inline-block text-white opacity-60 hover:opacity-100 rounded-full px-4 py-2 transition-colors duration-300"
-            >Supprimer</a>
+            @include('monster._delete', ['monster' => $monster])
           </div>
         </div>
       </div>
