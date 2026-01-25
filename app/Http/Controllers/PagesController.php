@@ -15,6 +15,7 @@ class PagesController extends Controller
             ->get();
 
         return view('pages.home', [
+            //_main.blade.php pour l'utilisation des variables
             'randomMonster' => $randomMonster,
             'monsters'      => $monsters,
         ]);

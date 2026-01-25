@@ -43,7 +43,7 @@ class MonstersController extends Controller
         $data['user_id'] = Auth::id() ?? 1;
         $data['rarety_id'] = $data['rarety_id'] ?? 1;
         $data['image_url'] = $data['image_url'] ?: null;
-
+//store crate
         $monster = Monster::create($data);
 
         return to_route('monster.show', [
@@ -51,6 +51,8 @@ class MonstersController extends Controller
             'slug'    => Str::slug($monster->name),
         ]);
     }
+// store crate
+
 
     public function edit(Monster $monster): View
     {
@@ -61,6 +63,7 @@ class MonstersController extends Controller
         return view('monster.edit', compact('monster', 'types', 'rareties'));
     }
 
+//sotre delete
     public function destroy(Monster $monster): RedirectResponse
 {
     $monster->delete();
@@ -70,6 +73,7 @@ class MonstersController extends Controller
         ->with('success', 'Monstre supprimé avec succès');
 }
 
+//sotre update
     public function update(Request $request, Monster $monster): RedirectResponse
     {
         $data = $request->validate([
