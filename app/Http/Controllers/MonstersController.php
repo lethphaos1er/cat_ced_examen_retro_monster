@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Monster;
 use App\Models\MonsterType;
+use App\Models\Rarity;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
@@ -20,8 +21,7 @@ class MonstersController extends Controller
     public function create(): View
     {
         $types = MonsterType::query()->orderBy('name')->get();
-
-        $rareties = ['Commun', 'Rare', 'Épique', 'Légendaire'];
+        $rareties = Rarity::orderBy('name')->get();
 
         return view('monster.create', compact('types', 'rareties'));
     }
@@ -43,7 +43,7 @@ class MonstersController extends Controller
         $data['user_id'] = Auth::id() ?? 1;
         $data['rarety_id'] = $data['rarety_id'] ?? 1;
         $data['image_url'] = $data['image_url'] ?: null;
-//store crate
+
         $monster = Monster::create($data);
 
         return to_route('monster.show', [
@@ -51,29 +51,24 @@ class MonstersController extends Controller
             'slug'    => Str::slug($monster->name),
         ]);
     }
-// store crate
-
 
     public function edit(Monster $monster): View
     {
         $types = MonsterType::query()->orderBy('name')->get();
-
-        $rareties = ['Commun', 'Rare', 'Épique', 'Légendaire'];
+        $rareties = Rarity::orderBy('name')->get();
 
         return view('monster.edit', compact('monster', 'types', 'rareties'));
     }
 
-//sotre delete
     public function destroy(Monster $monster): RedirectResponse
-{
-    $monster->delete();
+    {
+        $monster->delete();
 
-    return redirect()
-        ->route('home')
-        ->with('success', 'Monstre supprimé avec succès');
-}
+        return redirect()
+            ->route('home')
+            ->with('success', 'Monstre supprimé avec succès');
+    }
 
-//sotre update
     public function update(Request $request, Monster $monster): RedirectResponse
     {
         $data = $request->validate([
@@ -96,6 +91,58 @@ class MonstersController extends Controller
         return to_route('monster.show', [
             'monster' => $monster->id,
             'slug'    => Str::slug($monster->name),
+        ]);
+    }
+
+    public function index(): View
+    {
+        $monsters = Monster::orderBy('name', 'asc')->get();
+
+        return view('monster.index', compact('monsters'));
+    }
+
+    public function search(Request $request): View
+    {
+        $query = Monster::query();
+
+        // Recherche par nom (insensible à la casse)
+        if ($request->filled('texte')) {
+            $texte = mb_strtolower($request->input('texte'));
+            $query->whereRaw('LOWER(name) LIKE ?', ['%' . $texte . '%']);
+        }
+
+        // Filtre PV
+        if ($request->filled('min_pv') && $request->filled('max_pv')) {
+            $query->whereBetween('pv', [
+                (int) $request->min_pv,
+                (int) $request->max_pv,
+            ]);
+        }
+
+        // Filtre Attaque
+        if ($request->filled('min_attaque') && $request->filled('max_attaque')) {
+            $query->whereBetween('attack', [
+                (int) $request->min_attaque,
+                (int) $request->max_attaque,
+            ]);
+        }
+
+        // Filtre rareté (si ton select envoie rarity = name)
+        if ($request->filled('rarity')) {
+            $query->where('rarity', $request->input('rarity'));
+        }
+
+        $monsters = $query->orderByDesc('created_at')->get();
+        $rareties = Rarity::orderBy('name')->get();
+
+        $queryLabel = $request->filled('texte')
+            ? $request->input('texte')
+            : 'vos filtres';
+
+        return view('monster.search', [
+            'monsters' => $monsters,
+            'query'    => $queryLabel,
+            'rareties' => $rareties,
         ]);
     }
 }

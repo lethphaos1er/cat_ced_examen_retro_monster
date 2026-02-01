@@ -1,6 +1,6 @@
 <!-- Formulaire de Recherche Full Texte -->
 <form
-  action="/recherche-texte"
+  action="{{ route('monster.search') }}"
   method="GET"
   class="bg-gray-700 rounded-lg shadow-lg p-4 mb-6"
 >
@@ -10,6 +10,7 @@
     name="texte"
     placeholder="Chercher un monstre..."
     class="w-full p-2 mb-4 bg-gray-800 rounded"
+    value="{{ request('texte') }}"
   />
   <button
     type="submit"
@@ -21,7 +22,7 @@
 
 <!-- Formulaire de Recherche par Critères -->
 <form
-  action="/recherche-criteres"
+  action="{{ route('monster.search') }}"
   method="GET"
   class="bg-gray-700 rounded-lg shadow-lg p-4"
 >
@@ -38,13 +39,27 @@
   </select>
 
   <!-- Rareté -->
-  <select name="rarete" class="w-full p-2 mb-4 bg-gray-800 rounded">
-    <option value="" disabled selected>Choisir une rareté</option>
-    <option value="commun">Commun</option>
-    <option value="rare">Rare</option>
-    <option value="epique">Épique</option>
-    <option value="legendaire">Légendaire</option>
+  <label for="rarity" class="block mb-2 font-semibold">
+      Rareté
+  </label>
+
+  <select
+      name="rarity"
+      id="rarity"
+      class="w-full p-2 mb-4 bg-gray-800 rounded"
+  >
+      <option value="">Toutes les raretés</option>
+
+      @foreach ($rareties as $rarity)
+          <option
+              value="{{ $rarity->name }}"
+              @selected(request('rarity') === $rarity->name)
+          >
+              {{ $rarity->name }}
+        </option>
+      @endforeach
   </select>
+
 
   <!-- PV -->
   <div class="bg-gray-700 rounded-lg shadow-lg p-4 mb-4">

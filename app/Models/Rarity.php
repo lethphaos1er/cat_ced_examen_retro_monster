@@ -9,14 +9,12 @@ class Rarity extends Model
 {
     use HasFactory;
 
-    protected $table = 'rarities';
+    protected $table = 'rareties';
 
-    protected $fillable = [
-        'name',
-    ];
+    protected $fillable = ['name'];
 
     public function monsters()
     {
-        return $this->hasMany(Monster::class, 'rarity_id');
+        return $this->hasMany(Monster::class, 'rarety_id');
     }
 }

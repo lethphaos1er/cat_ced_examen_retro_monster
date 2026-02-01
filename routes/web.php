@@ -7,6 +7,12 @@ use App\Http\Controllers\MonstersController;
 
 Route::get('/', [PagesController::class, 'home'])->name('home');
 
+Route::get('/monsters', [MonstersController::class, 'index'])
+    ->name('monster.index');
+
+Route::get('/monsters/search',[MonstersController::class, 'search'])
+    ->name('monster.search');
+
 Route::get('/monsters/{monster}/{slug?}', [MonstersController::class, 'show'])
     ->name('monster.show');
 

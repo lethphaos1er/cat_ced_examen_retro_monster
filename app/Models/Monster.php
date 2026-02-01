@@ -28,7 +28,9 @@ class Monster extends Model
     {
         return $this->belongsTo(MonsterType::class, 'type_id');
     }
+    public function rarety()
+    {
+        return $this->belongsTo(Rarity::class, 'rarety_id');
+    }
 
-    // Si tu n'as PAS de table liée, garde pas de relation ici.
-    // Si tu en as une plus tard, tu la remettras.
 }

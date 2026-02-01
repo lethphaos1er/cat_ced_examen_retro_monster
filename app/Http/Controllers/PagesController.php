@@ -10,14 +10,14 @@ class PagesController extends Controller
     {
         $randomMonster = Monster::inRandomOrder()->first();
 
-        $monsters = Monster::orderByDesc('created_at')
+        $lastMonsters = Monster::orderByDesc('created_at')
             ->limit(9)
             ->get();
 
         return view('pages.home', [
             //_main.blade.php pour l'utilisation des variables
             'randomMonster' => $randomMonster,
-            'monsters'      => $monsters,
+            'monsters'      => $lastMonsters,
         ]);
     }
 }
